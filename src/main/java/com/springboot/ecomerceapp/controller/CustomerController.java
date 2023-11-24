@@ -1,6 +1,8 @@
 package com.springboot.ecomerceapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +16,7 @@ import com.springboot.ecomerceapp.service.CustomerService;
 import com.springboot.ecomerceapp.service.UserService;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000"})
 public class CustomerController {
 
 	@Autowired
@@ -24,6 +27,9 @@ public class CustomerController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 	/* 
 	 * @Param 
 	 * {
@@ -53,6 +59,7 @@ public class CustomerController {
 		User user = customer.getUser();
 		user.setRole(RoleType.CUSTOMER);
 		/* Step 4: Save User in DB and attch saved user to customer */
+		user.setPassword(encoder.encode(user.getPassword()));
 		user = userService.postUser(user);
 		/* Step 5:Attach user and save customer */
 		customer.setUser(user);

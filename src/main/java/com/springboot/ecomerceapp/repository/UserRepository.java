@@ -6,4 +6,6 @@ import com.springboot.ecomerceapp.model.User;
 
 public interface UserRepository extends JpaRepository<User, Integer>{
 
+	User findByUsername(String username);
+
 }
