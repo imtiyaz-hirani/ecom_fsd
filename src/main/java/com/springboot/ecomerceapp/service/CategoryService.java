@@ -1,5 +1,6 @@
 package com.springboot.ecomerceapp.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,11 @@ public class CategoryService {
 		if(!optional.isPresent())
 			throw new InvalidIdException("Category Id Invalid");
 		return optional.get();
+	}
+
+	public List<Category> getAll() {
+		 
+		return categoryRepository.findAll();
 	}
 
 	
