@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.ecomerceapp.dto.VendorDto;
+import com.springboot.ecomerceapp.enums.RoleType;
 import com.springboot.ecomerceapp.exception.InvalidIdException;
+import com.springboot.ecomerceapp.model.User;
 import com.springboot.ecomerceapp.model.Vendor;
+import com.springboot.ecomerceapp.service.UserService;
 import com.springboot.ecomerceapp.service.VendorService;
 
 @RestController
@@ -28,11 +32,41 @@ public class VendorController {
 	@Autowired
 	private VendorService vendorService; // --DI
 
-	@PostMapping("/post") // api: /vendor/post --DI
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	/* 
+	 * API: Adding vendor with User details
+	 * Method: POST
+	 * Path: /vendor/add
+	 * Param: 
+	 * RequestBody: 
+	 * {
+	    "name":"ABC Electronics",
+	    "city":"mumbai",
+	    "user":{
+	        "username":"abc@gmail.com",
+	        "password":"abc@123"
+    		}
+		}
+	 * Response: Vendor
+	 * */
+	@PostMapping("/add") // api: /vendor/post --DI
 	public Vendor postVendor(@RequestBody Vendor vendor) { // ur method is mapped to a URL : api
-		/*
-		 * I need vendor info as an object, and I will give it to repository via service
-		 */
+		/* Fetch user details from vendor and save it in DB*/
+		User user = vendor.getUser();
+		//attach role to user 
+		user.setRole(RoleType.VENDOR);
+		//encoding the password
+		String encodedPassword = passwordEncoder.encode(user.getPassword());
+		user.setPassword(encodedPassword);
+		
+		/* this user that comes from the DB gives us ID as well */
+		user = userService.postUser(user);
+		/* Attach user to vendor and save vendor */
+		vendor.setUser(user);
 		vendor = vendorService.postVendor(vendor);
 		return vendor;
 	}

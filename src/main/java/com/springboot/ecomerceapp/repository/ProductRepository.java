@@ -2,6 +2,7 @@ package com.springboot.ecomerceapp.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -16,6 +17,12 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	List<Product> getProductsByVendorJpql(int vid);
 
 	List<Product> findByVendorId(int vid);
+
+	@Query("select p from Product p where p.category.id=?1")
+	List<Product> getProductsByCategoryId(int cid, Pageable pageable);
+
+	@Query("select p from Product p where p.featured=?1")
+	List<Product> getFeaturedProducts(boolean featured);
 
 }
 /* 

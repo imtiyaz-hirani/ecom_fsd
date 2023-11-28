@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Product { //p
@@ -26,8 +27,13 @@ public class Product { //p
 	@Column(length = 2000)
 	private String description; 
 	
+	private boolean featured; //findByFeatured(true)
+	
 	@ManyToOne
 	private Vendor vendor; //findByVendorId(vid) : List<Product> : findByVendorName(vname)
+	
+	@OneToOne
+	private Category category;  //findByCategoryId : List<Product> 
 	
 	public int getId() {
 		return id;
@@ -67,6 +73,22 @@ public class Product { //p
 
 	public void setVendor(Vendor vendor) {
 		this.vendor = vendor;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public boolean isFeatured() {
+		return featured;
+	}
+
+	public void setFeatured(boolean featured) {
+		this.featured = featured;
 	} 
 	
 	

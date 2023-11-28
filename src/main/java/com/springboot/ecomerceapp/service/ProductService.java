@@ -41,4 +41,14 @@ public class ProductService {
 		return optional.get();
 	}
 
+	public List<Product> getProductsByCategoryId(int cid, Pageable pageable) {
+		 
+		return productRepository.getProductsByCategoryId(cid,pageable);
+	}
+
+	public List<Product> getFeaturedProducts() {
+		 
+		return productRepository.getFeaturedProducts(true);
+	}
+
 }
