@@ -26,7 +26,7 @@ import com.springboot.ecomerceapp.service.VendorService;
 
 @RestController
 @RequestMapping("/product")
-@CrossOrigin(origins = {"localhost:3000"})
+@CrossOrigin(origins = {"http://localhost:3000"})
 public class ProductController {
 
 	@Autowired
@@ -115,7 +115,11 @@ public class ProductController {
 		return productService.getFeaturedProducts();
 	}
 	
-	
+	@GetMapping("/search/{qStr}")
+	public List<Product> searchProductByName(@PathVariable("qStr") String qStr) {
+		List<Product> list= productService.searchProductByName(qStr);
+		return list; 
+	}
 }
 
 /* 
@@ -123,5 +127,7 @@ public class ProductController {
  *  POST:
  *  PUT:
  *  DELETE: 
+ *  
+ *  ctrl + shft + O : for auto import
  * */
  

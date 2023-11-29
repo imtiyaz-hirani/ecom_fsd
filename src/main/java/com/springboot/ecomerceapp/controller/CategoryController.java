@@ -15,7 +15,7 @@ import com.springboot.ecomerceapp.service.CategoryService;
 
 @RestController
 @RequestMapping("/category")
-@CrossOrigin(origins = {"localhost:3000"})
+@CrossOrigin(origins = {"http://localhost:3000"})
 public class CategoryController {
 
 	@Autowired

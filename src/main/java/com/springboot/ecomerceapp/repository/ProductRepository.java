@@ -24,6 +24,9 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	@Query("select p from Product p where p.featured=?1")
 	List<Product> getFeaturedProducts(boolean featured);
 
+	@Query("select p from Product p where p.title LIKE %?1%")
+	List<Product> searchProductByName(String qStr);
+
 }
 /* 
  * JPQL: we write jpql on model classes : DB Independent 

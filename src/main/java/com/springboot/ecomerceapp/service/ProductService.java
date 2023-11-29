@@ -51,4 +51,9 @@ public class ProductService {
 		return productRepository.getFeaturedProducts(true);
 	}
 
+	public List<Product> searchProductByName(String qStr) {
+		 
+		return productRepository.searchProductByName(qStr);
+	}
+
 }
