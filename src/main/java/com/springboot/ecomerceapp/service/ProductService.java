@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.springboot.ecomerceapp.dto.ProductUpdateDto;
 import com.springboot.ecomerceapp.exception.InvalidIdException;
 import com.springboot.ecomerceapp.model.Product;
 import com.springboot.ecomerceapp.repository.ProductRepository;
@@ -54,6 +55,16 @@ public class ProductService {
 	public List<Product> searchProductByName(String qStr) {
 		 
 		return productRepository.searchProductByName(qStr);
+	}
+
+	public void updateFeatured(ProductUpdateDto dto) throws InvalidIdException {
+		Optional<Product> optional =  productRepository.findById(dto.getId());
+		if(!optional.isPresent())
+			throw new InvalidIdException("Product ID Invalid");
+		Product product =  optional.get();
+		product.setFeatured(dto.getStatus());
+		
+		productRepository.save(product);
 	}
 
 }

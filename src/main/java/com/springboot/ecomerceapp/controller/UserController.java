@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springboot.ecomerceapp.enums.RoleType;
 import com.springboot.ecomerceapp.model.User;
 import com.springboot.ecomerceapp.service.UserService;
 
@@ -27,6 +28,7 @@ public class UserController {
 	public User login(Principal principal) {
 		String username = principal.getName();
 		User user  = userService.getUserByUserName(username);
+		
 		return user; 
 	}
 }

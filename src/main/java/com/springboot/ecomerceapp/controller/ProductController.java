@@ -6,16 +6,19 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springboot.ecomerceapp.dto.ProductUpdateDto;
 import com.springboot.ecomerceapp.exception.InvalidIdException;
 import com.springboot.ecomerceapp.model.Category;
 import com.springboot.ecomerceapp.model.Product;
@@ -119,6 +122,19 @@ public class ProductController {
 	public List<Product> searchProductByName(@PathVariable("qStr") String qStr) {
 		List<Product> list= productService.searchProductByName(qStr);
 		return list; 
+	}
+	
+	@PutMapping("/update")
+	public ResponseEntity<?> updateFeatured(@RequestBody ProductUpdateDto dto) {
+		try {
+		productService.updateFeatured(dto);
+			return ResponseEntity.status(HttpStatus.OK).body("product updated..");
+
+		}
+		catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("product error..");
+
+		}
 	}
 }
 
