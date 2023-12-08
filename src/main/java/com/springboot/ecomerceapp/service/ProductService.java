@@ -57,14 +57,14 @@ public class ProductService {
 		return productRepository.searchProductByName(qStr);
 	}
 
-	public void updateFeatured(ProductUpdateDto dto) throws InvalidIdException {
+	public Product updateFeatured(ProductUpdateDto dto) throws InvalidIdException {
 		Optional<Product> optional =  productRepository.findById(dto.getId());
 		if(!optional.isPresent())
 			throw new InvalidIdException("Product ID Invalid");
 		Product product =  optional.get();
 		product.setFeatured(dto.getStatus());
 		
-		productRepository.save(product);
+		return productRepository.save(product);
 	}
 
 }

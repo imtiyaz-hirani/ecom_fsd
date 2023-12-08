@@ -3,6 +3,8 @@ package com.springboot.ecomerceapp.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -40,6 +42,9 @@ public class ProductController {
 	
 	@Autowired
 	private CategoryService categoryService;
+	
+	@Autowired
+	private Logger logger;
 	
 	@PostMapping("/add/{vid}/{cid}")
 	public ResponseEntity<?> postProduct(@RequestBody Product product, 
@@ -127,13 +132,14 @@ public class ProductController {
 	@PutMapping("/update")
 	public ResponseEntity<?> updateFeatured(@RequestBody ProductUpdateDto dto) {
 		try {
-		productService.updateFeatured(dto);
-			return ResponseEntity.status(HttpStatus.OK).body("product updated..");
-
+		Product product = productService.updateFeatured(dto);
+			//add a logger 
+			logger.info("updated status of product " + product.getTitle() + " to " + dto.getStatus());
+			return ResponseEntity.status(HttpStatus.OK).body(product);
 		}
 		catch(Exception e) {
+			logger.error("Issue in updating the featured state of product id:" + dto.getId() );
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("product error..");
-
 		}
 	}
 }

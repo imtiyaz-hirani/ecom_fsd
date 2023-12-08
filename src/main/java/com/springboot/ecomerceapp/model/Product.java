@@ -29,6 +29,8 @@ public class Product { //p
 	
 	private boolean featured; //findByFeatured(true)
 	
+	private String image; 
+	
 	@ManyToOne
 	private Vendor vendor; //findByVendorId(vid) : List<Product> : findByVendorName(vname)
 	
@@ -89,6 +91,14 @@ public class Product { //p
 
 	public void setFeatured(boolean featured) {
 		this.featured = featured;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	} 
 	
 	
